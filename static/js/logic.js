@@ -58,8 +58,6 @@ function styleinfo (feature) {
 // Grabbing our GeoJSON data..
 d3.json(link, function(data){
 
-  
-
     L.geoJson(data, {
         // Style each feature (in this case a magnitude)
         style: styleinfo,
@@ -76,5 +74,18 @@ d3.json(link, function(data){
         }
     
       }).addTo(map);
-    
+
+      var legend = L.control({position: "bottomright"});
+      legend.onAdd = function() {
+        var div = L.DomUtil.create("div", "info legend");
+        var grades = [0,1,2,3,4,5]
+        var colors = ["black", "purple", "green", "orange", "red", "yellow"]
+        for (var i=0; i<grades.length; i++){
+          div.innerHTML +=
+        "<i style='background: " + colors[i] + "'></i> " +
+        grades[i] + (grades[i + 1] ? "&ndash;" + grades[i + 1] + "<br>" : "+");
+        }
+        return div 
+      };
+      legend.addTo(map)
     });
